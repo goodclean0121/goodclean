@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>굿 클린 | 믿고 맡기는 전문 청소 서비스</title>
+<meta name="description" content="굿 클린 - 입주청소, 이사청소, 사무실·상가 청소, 에어컨·주방 특수청소까지. 꼼꼼하고 합리적인 전문 청소 서비스.">
+<style>
+  :root{
+    --primary:#1e90ff;
+    --primary-dark:#0b6fd6;
+    --accent:#9dd0ff;
+    --ink:#0f1d3a;
+    --muted:#5b6b88;
+    --bg:#ffffff;
+    --soft:#eef7ff;
+    --line:#e4e7ec;
+    --radius:16px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Pretendard','Noto Sans KR','Malgun Gothic',sans-serif;color:var(--ink);background:var(--bg);line-height:1.65}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%}
+  .container{width:min(1120px,100% - 40px);margin:0 auto}
+  section{padding:88px 0}
+  .tag{display:inline-block;color:var(--primary-dark);background:var(--soft);font-weight:700;font-size:14px;padding:6px 14px;border-radius:999px;margin-bottom:14px}
+  h2{font-size:clamp(26px,4vw,38px);line-height:1.3;margin-bottom:12px}
+  .sub{color:var(--muted);max-width:620px}
+  .center{text-align:center}.center .sub{margin:0 auto}
+  .btn{display:inline-block;padding:14px 28px;border-radius:999px;font-weight:700;border:2px solid transparent;cursor:pointer;font-size:16px;font-family:inherit;transition:.2s}
+  .btn-primary{background:var(--primary);color:#fff}
+  .btn-primary:hover{background:var(--primary-dark)}
+  .btn-ghost{border-color:#fff;color:#fff}
+  .btn-ghost:hover{background:#fff;color:var(--primary-dark)}
+
+  /* header */
+  header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:72px}
+  .logo{font-size:24px;font-weight:900;color:var(--primary-dark);letter-spacing:-1px}
+  .logo span{color:var(--primary)}
+  nav ul{display:flex;gap:30px;list-style:none;font-weight:600}
+  nav a:hover{color:var(--primary)}
+  .nav-cta{padding:10px 20px;font-size:15px}
+  .menu-btn{display:none;background:none;border:0;font-size:28px;cursor:pointer}
+
+  /* hero */
+  .hero{background:linear-gradient(135deg,#0b6fd6 0%,#1e90ff 60%,#6cc0ff 100%);color:#fff;padding:110px 0 130px;position:relative;overflow:hidden}
+  .hero::before{content:"";position:absolute;width:520px;height:520px;right:-120px;top:-160px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.28),transparent 65%);animation:drift 9s ease-in-out infinite alternate}
+  .hero .container{position:relative;z-index:2}
+  .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+  .hero h1{font-size:clamp(34px,5.4vw,58px);line-height:1.2;margin-bottom:20px;letter-spacing:-1.5px}
+  .hero h1 em{font-style:normal;background:linear-gradient(90deg,#fff,#bfe3ff,#fff);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmer 3.5s linear infinite}
+  .hero p{font-size:18px;opacity:.95;max-width:540px;margin-bottom:34px;word-break:keep-all}
+  .hero .btns{display:flex;gap:12px;flex-wrap:wrap}
+  .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.4);padding:7px 16px;border-radius:999px;font-weight:700;font-size:14px;margin-bottom:22px}
+  .hero-text>*{opacity:0;transform:translateY(26px);animation:rise .8s cubic-bezier(.2,.7,.2,1) forwards}
+  .hero-text>:nth-child(1){animation-delay:.1s}.hero-text>:nth-child(2){animation-delay:.25s}
+  .hero-text>:nth-child(3){animation-delay:.4s}.hero-text>:nth-child(4){animation-delay:.55s}
+  .hero .btn-primary{animation:rise .8s .55s cubic-bezier(.2,.7,.2,1) forwards,pulseBtn 2.4s 1.6s infinite}
+
+  /* bubbles */
+  .bubbles{position:absolute;inset:0;overflow:hidden;z-index:1;pointer-events:none}
+  .bubbles span{position:absolute;bottom:-80px;border-radius:50%;background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.55),rgba(255,255,255,.12));border:1px solid rgba(255,255,255,.45);animation:bubble linear infinite}
+  .twinkle{position:absolute;z-index:1;color:#fff;animation:twinkle 2.4s ease-in-out infinite;pointer-events:none}
+
+  /* orbit visual */
+  .orbit{position:relative;width:min(380px,82vw);aspect-ratio:1;margin:0 auto}
+  .orb{position:absolute;inset:17%;border-radius:50%;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.55);box-shadow:0 0 60px rgba(255,255,255,.35),inset 0 0 40px rgba(255,255,255,.25);display:grid;place-items:center;animation:pulse 3.2s ease-in-out infinite}
+  .orb img{width:64%;animation:bob 4s ease-in-out infinite}
+  .ring{position:absolute;inset:0;animation:spin 24s linear infinite}
+  .arm{position:absolute;inset:0;transform:rotate(var(--a))}
+  .chip{position:absolute;left:50%;top:0;width:62px;height:62px;margin:-31px 0 0 -31px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:30px;box-shadow:0 10px 24px rgba(8,40,100,.3);animation:unspin 24s linear infinite}
+  .wave{position:absolute;left:0;bottom:-1px;width:200%;height:70px;z-index:1;animation:wave 14s linear infinite}
+
+  @keyframes rise{to{opacity:1;transform:none}}
+  @keyframes shimmer{to{background-position:-200% 0}}
+  @keyframes bubble{0%{transform:translateY(0) scale(.7);opacity:0}10%{opacity:1}100%{transform:translateY(-110vh) translateX(var(--dx)) scale(1.15);opacity:0}}
+  @keyframes twinkle{0%,100%{opacity:.15;transform:scale(.6) rotate(0)}50%{opacity:1;transform:scale(1.15) rotate(25deg)}}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes unspin{from{transform:rotate(calc(-1 * var(--a)))}to{transform:rotate(calc(-1 * var(--a) - 360deg))}}
+  @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+  @keyframes bob{0%,100%{transform:translateY(-6px)}50%{transform:translateY(8px)}}
+  @keyframes drift{to{transform:translate(-60px,50px)}}
+  @keyframes wave{to{transform:translateX(-50%)}}
+  @keyframes pulseBtn{0%{box-shadow:0 0 0 0 rgba(255,255,255,.7)}70%,100%{box-shadow:0 0 0 18px rgba(255,255,255,0)}}
+  @media(prefers-reduced-motion:reduce){
+    .hero *,.hero::before{animation:none!important}
+    .hero-text>*{opacity:1;transform:none}
+  }
+
+  /* stats */
+
+  /* services */
+  .grid{display:grid;gap:22px;margin-top:44px}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .card{border:1px solid var(--line);border-radius:var(--radius);padding:30px;background:#fff;transition:.25s}
+  .card:hover{transform:translateY(-6px);box-shadow:0 14px 30px rgba(16,24,40,.1);border-color:var(--primary)}
+  button.card{font:inherit;color:inherit;text-align:left;cursor:pointer;width:100%}
+  .card .more{display:inline-block;margin-top:14px;color:var(--primary-dark);font-weight:700;font-size:14px}
+  .card .ico{font-size:40px;margin-bottom:14px}
+
+  /* gallery modal */
+  .modal{position:fixed;inset:0;background:rgba(10,20,40,.88);z-index:100;display:none;align-items:center;justify-content:center;padding:20px}
+  .modal.open{display:flex}
+  .viewer{position:relative;width:min(960px,100%);color:#fff}
+  .viewer h3{font-size:20px;margin-bottom:12px;padding-right:48px}
+  .stage{position:relative;background:#000;border-radius:12px;overflow:hidden;height:min(68vh,620px);display:flex;align-items:center;justify-content:center}
+  .stage img{max-width:100%;max-height:100%;object-fit:contain}
+  .empty{padding:40px 20px;text-align:center;color:#d6e4ff}
+  .nav-btn,.close{position:absolute;border:0;cursor:pointer;color:#fff;background:rgba(255,255,255,.18);border-radius:50%;width:46px;height:46px;font-size:22px}
+  .nav-btn:hover,.close:hover{background:var(--primary)}
+  .nav-btn.prev{left:12px;top:50%;transform:translateY(-50%)}
+  .nav-btn.next{right:12px;top:50%;transform:translateY(-50%)}
+  .close{top:-4px;right:0;width:40px;height:40px;font-size:20px}
+  .counter{text-align:center;margin-top:10px;font-size:14px;color:#cfe0ff}
+  .thumbs{display:flex;gap:8px;margin-top:10px;overflow-x:auto;padding-bottom:6px}
+  .thumbs img{height:56px;width:84px;object-fit:cover;border-radius:6px;opacity:.5;cursor:pointer;flex:none;border:2px solid transparent}
+  .thumbs img.on{opacity:1;border-color:var(--primary)}
+  .card h3{font-size:20px;margin-bottom:8px}
+  .card p{color:var(--muted);font-size:15px}
+
+  /* why */
+  .why{background:var(--soft)}
+  .why .card{border:0;text-align:center}
+  .why .card h3,.why .card p{word-break:keep-all}
+  .why button.card{text-align:center}
+  /* detail dialog */
+  .info-modal{position:fixed;inset:0;z-index:110;background:rgba(10,20,40,.6);display:none;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
+  .info-modal.open{display:flex}
+  .info-box{position:relative;background:#fff;border-radius:20px;width:min(860px,100%);max-height:calc(100vh - 40px);overflow-y:auto;padding:36px;word-break:keep-all;animation:pop .35s cubic-bezier(.2,.7,.2,1)}
+  @keyframes pop{from{opacity:0;transform:translateY(24px) scale(.97)}to{opacity:1;transform:none}}
+  .info-close{position:absolute;top:14px;right:14px;width:40px;height:40px;border:0;border-radius:50%;background:var(--soft);color:var(--primary-dark);font-size:18px;cursor:pointer}
+  .info-close:hover{background:var(--primary);color:#fff}
+  .info-box .tag{margin-bottom:10px}
+  .info-box h3{font-size:clamp(22px,3.4vw,28px);line-height:1.35;margin-bottom:22px}
+  .info-body{display:grid;grid-template-columns:.9fr 1.1fr;gap:28px;align-items:stretch;min-height:530px}
+  .info-photo{border-radius:16px;overflow:hidden;background:linear-gradient(135deg,var(--soft),#d6ebff);display:grid;place-items:center;color:var(--primary-dark);font-weight:700;font-size:14px;text-align:center;min-height:300px}
+  .info-photo img{width:100%;height:100%;object-fit:cover;display:block}
+  .ph-note{padding:20px}.ph-note b{display:block;font-size:44px;margin-bottom:6px}
+  .info-text p{color:#3b4a66;margin-bottom:12px;font-size:15.5px;line-height:1.75}
+  .profile{list-style:none;background:var(--soft);border-radius:14px;padding:16px 18px;margin:0 0 16px;font-size:14.5px}
+  .profile li{display:flex;gap:12px;padding:4px 0}
+  .profile b{min-width:64px;color:var(--primary-dark)}
+  .points{list-style:none;margin:14px 0 18px;font-size:15px}
+  .points li{padding:7px 0 7px 26px;position:relative;font-weight:600}
+  .points li::before{content:"✓";position:absolute;left:0;color:#fff;background:var(--primary);width:18px;height:18px;border-radius:50%;font-size:11px;display:grid;place-items:center;top:11px}
+  .trust-quote{border-left:4px solid var(--primary);background:var(--soft);padding:14px 18px;border-radius:0 12px 12px 0;font-weight:700;color:var(--ink);margin:6px 0 16px;line-height:1.6}
+  .info-cta{display:inline-block;margin-top:6px}
+  .brand-line{font-size:clamp(24px,3.6vw,32px);font-weight:900;line-height:1.35;color:var(--ink);letter-spacing:-1px;margin-bottom:18px}
+  .brand-line em{font-style:normal;color:var(--primary)}
+  .why-ico{width:72px;height:72px;margin:0 auto 14px;border-radius:50%;background:var(--soft);display:grid;place-items:center;font-size:36px;transition:.3s}
+  .why .card:hover .why-ico{background:var(--primary);transform:rotate(-8deg) scale(1.08)}
+  .why .num{font-size:14px;font-weight:800;color:var(--primary);margin-bottom:8px}
+
+  /* process */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px;text-align:left;word-break:keep-all}
+  .step{position:relative;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:56px 26px 26px;transition:.25s;opacity:0;transform:translateY(28px)}
+  .step.in{opacity:1;transform:none;transition:opacity .6s ease,transform .6s ease,box-shadow .25s,border-color .25s}
+  .step:hover{box-shadow:0 14px 30px rgba(16,24,40,.1);border-color:var(--primary)}
+  .s-ico{position:absolute;top:-28px;left:26px;width:56px;height:56px;border-radius:16px;background:var(--primary);display:grid;place-items:center;font-size:28px;box-shadow:0 8px 18px rgba(30,144,255,.4);transition:.3s}
+  .step:hover .s-ico{transform:translateY(-4px) rotate(-6deg)}
+  .s-no{position:absolute;top:18px;right:22px;font-size:13px;font-weight:800;letter-spacing:1px;color:#b8d9ff}
+  .step h3{font-size:19px;margin-bottom:8px}
+  .step p{color:var(--muted);font-size:14.5px}
+  .step ul{list-style:none;margin-top:14px;padding-top:14px;border-top:1px dashed var(--line);font-size:13.5px;color:var(--ink)}
+  .step li{margin:4px 0;padding-left:20px;position:relative}
+  .step li::before{content:"✓";position:absolute;left:0;color:var(--primary);font-weight:800}
+  .step:not(:nth-child(3n))::after{content:"→";position:absolute;right:-20px;top:50%;transform:translateY(-50%);color:var(--primary);font-weight:800;font-size:18px}
+
+
+  /* contact */
+  .contact-wrap{display:block}
+  .info{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:34px 0 28px;padding:0;text-align:center}
+  .info li{list-style:none;background:var(--soft);border-radius:var(--radius);padding:30px 12px;min-height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;word-break:keep-all;font-size:14px}
+  .info .i-ico{font-size:26px}
+  .info b{color:var(--primary-dark);font-size:15px;font-weight:700;margin-top:2px}
+  .info li>span:last-child{font-size:16px;font-weight:800;color:var(--ink);line-height:1.45;overflow-wrap:anywhere}
+  .info li>span.addr{font-size:14px;line-height:1.5}
+  .info li>span.mail{font-size:clamp(13px,1.4vw,16px);white-space:nowrap;overflow-wrap:normal}
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:stretch;text-align:left}
+  .form-grid .col{display:flex;flex-direction:column}
+  .form-grid .col:last-child .cal{flex:1;display:flex;flex-direction:column}
+  #calDays{flex:1;grid-auto-rows:1fr}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .row2 label:first-child{margin-top:0}
+  #form{max-width:100%;padding:34px 38px}
+  #form .btn{max-width:420px;display:block;margin:26px auto 0}
+  form{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:30px;box-shadow:0 10px 30px rgba(16,24,40,.06)}
+  label{display:block;font-weight:700;font-size:14px;margin:14px 0 6px}
+  input,select,textarea{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:10px;font-size:15px;font-family:inherit}
+  input:focus,select:focus,textarea:focus{outline:2px solid var(--primary);border-color:transparent}
+  form .btn{width:100%;margin-top:20px}
+  .hint{font-weight:600;color:var(--primary-dark);margin-left:6px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .opt{margin:0!important;cursor:pointer}
+  .chips.grid3{display:grid;grid-template-columns:repeat(3,1fr)}
+  .chips.grid3 .opt span{display:block;text-align:center;padding:10px 6px;white-space:nowrap}
+  .opt{position:relative}
+  .opt input{position:absolute;left:0;top:0;width:1px;height:1px;padding:0;border:0;opacity:0;pointer-events:none}
+  .opt span{display:inline-block;padding:9px 16px;border:1px solid var(--line);border-radius:999px;font-size:14px;font-weight:600;color:var(--muted);transition:.15s;background:#fff}
+  .opt:hover span{border-color:var(--primary);color:var(--primary-dark)}
+  .opt input:checked+span{background:var(--primary);border-color:var(--primary);color:#fff}
+  .opt input:focus-visible+span{outline:2px solid var(--primary-dark);outline-offset:2px}
+  .cal{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff}
+  .cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+  .cal-head button{border:0;background:var(--soft);color:var(--primary-dark);width:32px;height:32px;border-radius:50%;cursor:pointer}
+  .cal-head button:disabled{opacity:.35;cursor:default}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+  .cal-week span{font-size:12px;font-weight:700;color:var(--muted);padding:4px 0}
+  .cal-week span:first-child{color:#e5484d}
+  .cal-day{border:0;background:#fff;border-radius:8px;padding:8px 0;font:inherit;font-size:14px;cursor:pointer;color:var(--ink);line-height:1.2}
+  .cal-day:hover:not(:disabled){background:var(--soft)}
+  .cal-day small{display:block;font-size:10px}
+  .cal-day.full{background:#fdecec;color:#c0392b;cursor:not-allowed;text-decoration:line-through}
+  .cal-day.full small{text-decoration:none}
+  .cal-day.past{color:#c3c9d4;cursor:default}
+  .cal-day.sel{background:var(--primary);color:#fff;font-weight:700}
+  .cal-day.today{box-shadow:inset 0 0 0 1.5px var(--primary)}
+  .cal-day.blank{visibility:hidden}
+  .cal-legend{display:flex;gap:14px;justify-content:center;font-size:12px;color:var(--muted);margin-top:10px;align-items:center}
+  .cal-legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:4px;vertical-align:-1px}
+  .cal-legend .ok{background:#fff;border:1px solid var(--line)}.cal-legend .full{background:#fdecec}.cal-legend .sel{background:var(--primary)}
+  .note{font-size:12px;color:var(--muted);margin-top:10px;text-align:center}
+
+  footer{background:#0f1d3a;color:#b8c5de;padding:44px 0;font-size:14px}
+  footer .logo{color:#fff;margin-bottom:10px;display:inline-block}
+
+  .float-call{position:fixed;right:20px;bottom:20px;background:var(--primary);color:#fff;font-weight:800;padding:14px 22px;border-radius:999px;box-shadow:0 8px 24px rgba(0,0,0,.2);z-index:60}
+
+  @media(max-width:860px){
+    section{padding:64px 0}
+    .g3{grid-template-columns:1fr}
+    .info-box{padding:28px 20px}
+    .info-body{grid-template-columns:1fr;gap:20px;min-height:0}
+    .info-photo{aspect-ratio:4/3;min-height:0}
+    .stage{height:auto;aspect-ratio:4/3}
+    .nav-btn{width:40px;height:40px}
+    .info{grid-template-columns:1fr 1fr}
+    .info li>span.mail{white-space:normal;overflow-wrap:anywhere;font-size:15px}
+    .form-grid{grid-template-columns:1fr;gap:0}
+    .row2{grid-template-columns:1fr}
+    .steps{grid-template-columns:1fr;gap:40px}
+    .step::after{display:none}
+    .menu-btn{display:block}
+    nav ul{display:none;position:absolute;top:68px;left:0;right:0;background:#fff;flex-direction:column;gap:0;border-bottom:1px solid var(--line)}
+    nav ul.open{display:flex}
+    nav li a{display:block;padding:16px 20px;border-top:1px solid var(--line)}
+    .nav-cta{display:none}
+    .hero{padding:80px 0 110px}
+    .hero-grid{grid-template-columns:1fr;gap:30px}
+    .orbit{width:min(280px,70vw)}
+    .chip{width:50px;height:50px;margin:-25px 0 0 -25px;font-size:24px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container nav">
+    <a href="#top" class="logo" aria-label="굿 클린"><img src="logo.png" alt="굿 클린 Good Clean" style="height:56px;display:block"></a>
+    <nav>
+      <ul id="menu">
+        <li><a href="#services">서비스</a></li>
+        <li><a href="#why">굿 클린이 특별한 이유</a></li>
+        <li><a href="#process">진행 과정</a></li>
+        <li><a href="#contact">견적 문의</a></li>
+      </ul>
+    </nav>
+    <a href="#contact" class="btn btn-primary nav-cta">무료 견적</a>
+    <button class="menu-btn" id="menuBtn" aria-label="메뉴 열기">☰</button>
+  </div>
+</header>
+
+<main id="top">
+  <div class="hero">
+    <div class="bubbles" id="bubbles" aria-hidden="true"></div>
+    <span class="twinkle" style="left:6%;top:16%;font-size:26px" aria-hidden="true">✦</span>
+    <span class="twinkle" style="left:46%;top:10%;font-size:18px;animation-delay:.8s" aria-hidden="true">✦</span>
+    <span class="twinkle" style="right:7%;top:14%;font-size:30px;animation-delay:1.4s" aria-hidden="true">✦</span>
+    <span class="twinkle" style="left:40%;bottom:22%;font-size:22px;animation-delay:.4s" aria-hidden="true">✦</span>
+    <div class="container hero-grid">
+      <div class="hero-text">
+        <span class="hero-badge">✨ 믿고 맡기는 전문 청소 서비스</span>
+        <h1>깨끗함의 기준,<br><em>굿 클린</em>이 만듭니다</h1>
+        <p>입주·이사청소부터 사무실, 상가, 방충망 시공, 특수청소까지.<br>숙련된 전문 인력이 꼼꼼하게 책임지고 마무리해 드립니다.</p>
+        <div class="btns">
+          <a href="#contact" class="btn btn-primary" style="background:#fff;color:var(--primary-dark)">무료 견적 받기</a>
+          <a href="#services" class="btn btn-ghost">서비스 보기</a>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="orbit">
+          <div class="orb"><img src="logo-white.png" alt=""></div>
+          <div class="ring">
+            <div class="arm" style="--a:0deg"><div class="chip">🧽</div></div>
+            <div class="arm" style="--a:72deg"><div class="chip">🧴</div></div>
+            <div class="arm" style="--a:144deg"><div class="chip">🧹</div></div>
+            <div class="arm" style="--a:216deg"><div class="chip">🪟</div></div>
+            <div class="arm" style="--a:288deg"><div class="chip">✨</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <svg class="wave" viewBox="0 0 1440 70" preserveAspectRatio="none" aria-hidden="true"><path fill="rgba(255,255,255,.4)" d="M0 28 C120 -6 240 -6 360 28 S600 62 720 28 S960 -6 1080 28 S1320 62 1440 28 V70 H0Z"/><path fill="#fff" d="M0 48 C120 20 240 20 360 48 S600 76 720 48 S960 20 1080 48 S1320 76 1440 48 V70 H0Z"/></svg>
+  </div>
+
+  <section id="services">
+    <div class="container center">
+      <span class="tag">SERVICES</span>
+      <h2>어떤 청소가 필요하세요?</h2>
+      <p class="sub">공간과 목적에 맞는 맞춤형 청소 서비스를 제공합니다.</p>
+      <div class="grid g3" style="text-align:left">
+        <button type="button" class="card" data-gallery="move-in"><div class="ico">🏠</div><h3>입주청소</h3><p>새 집에서의 첫날을 상쾌하게. 바닥, 욕실, 주방, 베란다까지 구석구석 꼼꼼하게 시공합니다.</p><span class="more">시공 사진 보기 →</span></button>
+        <button type="button" class="card" data-gallery="moving"><div class="ico">📦</div><h3>이사청소</h3><p>이사 전후 묵은 때와 먼지를 말끔히 제거해 드립니다. 퇴실 점검도 안심하세요.</p><span class="more">시공 사진 보기 →</span></button>
+        <button type="button" class="card" data-gallery="office"><div class="ico">🏢</div><h3>사무실·상가 청소</h3><p>정기·일회성 모두 가능. 업무 시간에 맞춰 쾌적한 근무 환경을 유지해 드립니다.</p><span class="more">시공 사진 보기 →</span></button>
+        <button type="button" class="card" data-gallery="screen"><div class="ico">🦟</div><h3>방충망 시공</h3><p>찢어지거나 낡은 방충망을 깔끔하게 교체·시공해 모기와 벌레 걱정 없는 환경을 만들어 드립니다.</p><span class="more">시공 사진 보기 →</span></button>
+        <button type="button" class="card" data-gallery="kitchen"><div class="ico">🍳</div><h3>주방·후드 청소</h3><p>기름때가 찌든 후드, 레인지, 배관까지 전문 장비로 깨끗하게 청소합니다.</p><span class="more">시공 사진 보기 →</span></button>
+        <button type="button" class="card" data-gallery="special"><div class="ico">🧽</div><h3>특수·정기 청소</h3><p>곰팡이, 줄눈, 유리창, 카펫 등 특수 청소와 정기 관리 서비스를 제공합니다.</p><span class="more">시공 사진 보기 →</span></button>
+      </div>
+    </div>
+  </section>
+
+  <section id="why" class="why">
+    <div class="container center">
+      <span class="tag">WHY GOODCLEAN</span>
+      <h2>굿 클린이 특별한 이유</h2>
+      <p class="sub">작은 부분까지 놓치지 않는 것이 굿 클린의 약속입니다.</p>
+      <div class="grid g3">
+        <button type="button" class="card" data-info="ceo"><div class="why-ico">👨‍💼</div><div class="num">01</div><h3>젊은 대표가 운영하는<br>청소업체</h3><p>대표가 직접 상담하고<br>현장을 챙깁니다.</p><span class="more">자세히 보기 →</span></button>
+        <button type="button" class="card" data-info="kiehl"><div class="why-ico">🌿</div><div class="num">02</div><h3>친환경 키엘<br>세제 사용</h3><p>아이와 반려동물도 안심,<br>자극적인 냄새 없이 시공합니다.</p><span class="more">자세히 보기 →</span></button>
+        <button type="button" class="card" data-info="trust"><div class="why-ico">🧾</div><div class="num">03</div><h3>투명한 가격<br>사후 A/S 보장</h3><p>견적 후 추가 비용 없이,<br>아쉬운 곳은 무상 재시공합니다.</p><span class="more">자세히 보기 →</span></button>
+      </div>
+    </div>
+  </section>
+
+  <section id="process">
+    <div class="container center">
+      <span class="tag">PROCESS</span>
+      <h2>진행 과정</h2>
+      <p class="sub">문의부터 마무리까지 간단하고 빠르게 진행됩니다.</p>
+      <div class="steps">
+        <div class="step"><div class="s-ico">📞</div><div class="s-no">STEP 01</div><h3>상담 문의</h3>
+          <p>전화 또는 홈페이지 견적창으로 편하게 문의하세요.</p>
+          <ul><li>서비스 종류·평수 선택</li><li>희망 날짜 선택</li></ul></div>
+        <div class="step"><div class="s-ico">📋</div><div class="s-no">STEP 02</div><h3>견적 안내</h3>
+          <p>공간 크기와 오염 상태를 확인하고 견적을 안내해 드립니다.</p>
+          <ul><li>추가 비용 없는 확정 금액</li><li>작업 범위 사전 안내</li></ul></div>
+        <div class="step"><div class="s-ico">📅</div><div class="s-no">STEP 03</div><h3>일정 확정</h3>
+          <p>예약 가능한 날짜를 확인해 시공 일정을 확정합니다.</p>
+          <ul><li>달력에서 마감일 확인</li><li>오전·오후 시간대 조율</li></ul></div>
+        <div class="step"><div class="s-ico">🧽</div><div class="s-no">STEP 04</div><h3>전문 시공</h3>
+          <p>숙련된 인력이 친환경 키엘 세제로 공간별로 꼼꼼히 시공합니다.</p>
+          <ul><li>주방·욕실·베란다 등 구석구석</li><li>시공 중 진행 상황 안내</li></ul></div>
+        <div class="step"><div class="s-ico">✅</div><div class="s-no">STEP 05</div><h3>최종 점검</h3>
+          <p>시공 후 고객님과 함께 마무리 상태를 확인합니다.</p>
+          <ul><li>아쉬운 부분 현장 보완</li><li>만족 확인 후 완료</li></ul></div>
+        <div class="step"><div class="s-ico">🛡️</div><div class="s-no">STEP 06</div><h3>사후 A/S</h3>
+          <p>완료 후에도 마음에 걸리는 부분은 무상으로 재시공해 드립니다.</p>
+          <ul><li>무상 재시공 보장</li><li>시공 후 문의 상담</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="container contact-wrap center">
+      <div>
+        <span class="tag">CONTACT</span>
+        <h2>무료 견적을 문의하세요</h2>
+        <p class="sub">간단한 정보를 남겨주시면 빠르게 연락드리겠습니다.</p>
+        <ul class="info">
+          <li><span class="i-ico">📞</span><b>전화</b><span>010-9748-6741</span></li>
+          <li><span class="i-ico">✉️</span><b>이메일</b><span class="mail">goodclean0121@gmail.com</span></li>
+          <li><span class="i-ico">🕗</span><b>운영시간</b><span>매일 08:00 ~ 20:00</span></li>
+          <li><span class="i-ico">📍</span><b>주소</b><span class="addr">경남 창원시 마산합포구<br>문화동 15길 25 104호</span></li>
+        </ul>
+      </div>
+      <form id="form">
+        <div class="form-grid">
+        <div class="col">
+        <div class="row2">
+          <div><label for="name">이름</label><input id="name" required placeholder="홍길동"></div>
+          <div><label for="phone">연락처</label><input id="phone" type="tel" required placeholder="010-0000-0000"></div>
+        </div>
+        <label>서비스 종류</label>
+        <div class="chips grid3" data-name="service">
+          <label class="opt"><input type="radio" name="service" value="입주청소" required><span>입주청소</span></label>
+          <label class="opt"><input type="radio" name="service" value="이사청소"><span>이사청소</span></label>
+          <label class="opt"><input type="radio" name="service" value="사무실·상가 청소"><span>사무실·상가</span></label>
+          <label class="opt"><input type="radio" name="service" value="방충망 시공"><span>방충망 시공</span></label>
+          <label class="opt"><input type="radio" name="service" value="주방·후드 청소"><span>주방·후드</span></label>
+          <label class="opt"><input type="radio" name="service" value="특수·정기 청소"><span>특수·정기</span></label>
+        </div>
+        <label>평수</label>
+        <div class="chips grid3">
+          <label class="opt"><input type="radio" name="size" value="10평대" required><span>10평대</span></label>
+          <label class="opt"><input type="radio" name="size" value="20평대"><span>20평대</span></label>
+          <label class="opt"><input type="radio" name="size" value="30평대"><span>30평대</span></label>
+          <label class="opt"><input type="radio" name="size" value="40평대"><span>40평대</span></label>
+          <label class="opt"><input type="radio" name="size" value="50평대"><span>50평대</span></label>
+          <label class="opt"><input type="radio" name="size" value="60평 이상"><span>60평 이상</span></label>
+        </div>
+        </div>
+        <div class="col">
+        <label>희망 날짜 <small class="hint" id="dateText">날짜를 선택해 주세요</small></label>
+        <div class="cal" id="cal">
+          <div class="cal-head">
+            <button type="button" id="calPrev" aria-label="이전 달">❮</button>
+            <strong id="calTitle"></strong>
+            <button type="button" id="calNext" aria-label="다음 달">❯</button>
+          </div>
+          <div class="cal-grid cal-week"><span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span></div>
+          <div class="cal-grid" id="calDays"></div>
+          <div class="cal-legend"><i class="ok"></i>예약 가능 <i class="full"></i>마감 <i class="sel"></i>선택</div>
+        </div>
+        <input type="hidden" id="date" name="date">
+        </div>
+        </div>
+        <button class="btn btn-primary" type="submit">견적 요청하기</button>
+        <p class="note" id="formNote">접수 후 입력하신 연락처로 상담 연락을 드립니다.</p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <a href="#top" class="logo" aria-label="굿 클린"><img src="logo-white.png" alt="굿 클린 Good Clean" style="height:64px;display:block;margin-bottom:12px"></a>
+    <p>상호: 굿 클린 · 대표: 정태준 · 사업자등록번호: 262-01-03499</p>
+    <p>주소: 경남 창원시 마산합포구 문화동 15길 25 104호 · 전화: 010-9748-6741</p>
+    <p style="margin-top:12px">© 2026 GoodClean. All rights reserved.</p>
+  </div>
+</footer>
+
+<a href="tel:01097486741" class="float-call">📞 전화 상담</a>
+
+<div class="info-modal" id="infoModal" role="dialog" aria-modal="true" aria-labelledby="infoTitle">
+  <div class="info-box">
+    <button class="info-close" id="infoClose" aria-label="닫기">✕</button>
+    <span class="tag" id="infoTag"></span>
+    <h3 id="infoTitle"></h3>
+    <div class="info-body" id="infoBody"></div>
+  </div>
+</div>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="시공 사진">
+  <div class="viewer">
+    <button class="close" id="mClose" aria-label="닫기">✕</button>
+    <h3 id="mTitle"></h3>
+    <div class="stage" id="mStage">
+      <button class="nav-btn prev" id="mPrev" aria-label="이전 사진">❮</button>
+      <img id="mImg" alt="">
+      <div class="empty" id="mEmpty" hidden>시공 사진을 준비 중입니다.<br>견적 문의 시 사례를 안내해 드립니다.</div>
+      <button class="nav-btn next" id="mNext" aria-label="다음 사진">❯</button>
+    </div>
+    <div class="counter" id="mCount"></div>
+    <div class="thumbs" id="mThumbs"></div>
+  </div>
+</div>
+
+<script>
+  const menu=document.getElementById('menu');
+  document.getElementById('menuBtn').addEventListener('click',()=>menu.classList.toggle('open'));
+  menu.addEventListener('click',e=>{if(e.target.tagName==='A')menu.classList.remove('open')});
+  // 사진은 photos/<항목>/1.jpg, 2.jpg, 3.jpg ... 순서대로 넣으면 자동으로 나타납니다 (연속된 번호, jpg).
+  (function(){
+    const box=document.getElementById('bubbles');
+    for(let i=0;i<16;i++){
+      const s=document.createElement('span'),d=18+Math.random()*50;
+      s.style.cssText='left:'+(Math.random()*100)+'%;width:'+d+'px;height:'+d+'px;--dx:'+((Math.random()-.5)*120)+'px;animation-duration:'+(9+Math.random()*10)+'s;animation-delay:'+(-Math.random()*14)+'s';
+      box.appendChild(s);
+    }
+  })();
+  (function(){
+    const steps=document.querySelectorAll('.step');
+    if(!('IntersectionObserver' in window)){steps.forEach(s=>s.classList.add('in'));return}
+    const io=new IntersectionObserver(es=>es.forEach(en=>{
+      if(en.isIntersecting){const s=en.target;setTimeout(()=>s.classList.add('in'),([...steps].indexOf(s)%3)*120);io.unobserve(s)}
+    }),{threshold:.15});
+    steps.forEach(s=>io.observe(s));
+  })();
+  /* ===== 특별한 이유: 상세 소개 창 ===== */
+  // 사진은 photos/about/ 폴더에 넣으세요 → ceo.jpg(대표 사진), kiehl.jpg(키엘 세제), consult.jpg(고객 상담). 없으면 안내 박스가 보입니다.
+  const INFO={
+    ceo:{
+      tag:'CEO',title:'젊은 대표가 직접 운영하는<br>굿 클린입니다',
+      photo:'photos/about/ceo.jpg',emoji:'👨‍💼',ph:'대표 사진을 준비 중입니다',
+      html:`<ul class="profile">
+          <li><b>이름</b>정태준</li>
+          <li><b>직책</b>굿 클린 대표</li>
+          <li><b>연락처</b>010-9748-6741</li>
+          <li><b>소재지</b>경남 창원시 마산합포구</li>
+        </ul>
+        <div class="trust-quote">“상담부터 시공, 사후 관리까지 대표가 직접 책임집니다.”</div>
+        <p>안녕하세요, 굿 클린 대표 정태준입니다.</p>
+        <p>청소는 단순히 닦아내는 일이 아니라, 고객님의 공간과 일상을 다시 쾌적하게 만드는 일이라고 생각합니다.</p>
+        <p>젊은 대표가 직접 상담하고 현장을 챙기는 만큼, 작은 부분까지 놓치지 않고 끝까지 꼼꼼하게 마무리하겠습니다. 궁금한 점은 언제든 편하게 연락 주세요.</p>
+        <p>감사합니다.</p>`
+    },
+    kiehl:{
+      tag:'ECO CLEANING',title:'아이와 반려동물도 안심할 수 있는<br>친환경 키엘 세제',
+      photo:'photos/about/kiehl.jpg',emoji:'🌿',ph:'키엘 세제 사진을 준비 중입니다',
+      html:`<div class="brand-line">독일 친환경 세제<br><em>‘키엘’</em> 제품 사용</div>
+        <ul class="points">
+          <li>친환경 세제로 안심할 수 있는 시공</li>
+          <li>자극적인 냄새를 줄여 시공 후 환기 부담 감소</li>
+          <li>아이와 반려동물이 있는 가정도 걱정 없이</li>
+        </ul>
+        <p>굿 클린은 시공에 독일 친환경 세제 ‘키엘’ 제품을 사용합니다. 사람이 오래 머무는 공간인 만큼, 깨끗함은 물론 안심할 수 있는 청소를 가장 먼저 생각합니다.</p>
+        <p>주방, 욕실, 바닥, 창틀까지 공간의 재질에 맞춰 세제를 사용하여 오염은 깔끔하게, 공간은 상하지 않게 관리해 드립니다. 시공 후에도 자극적인 냄새가 남지 않도록 꼼꼼하게 마무리합니다.</p>`
+    },
+    trust:{
+      tag:'TRUST',title:'고객님과 직접 마주 앉아<br>투명하게 상담합니다',
+      photo:'photos/about/consult.jpg',emoji:'🤝',ph:'상담 사진을 준비 중입니다',
+      html:`<div class="trust-quote">“꼼꼼하게 듣고, 투명하게 안내하는 것이 신뢰의 시작이라고 생각합니다.”</div>
+        <p>고객님의 공간과 요청 사항을 충분히 듣고, 작업 범위와 금액을 먼저 분명하게 안내해 드립니다.</p>
+        <ul class="points">
+          <li>상담 후 확정된 금액, 추가 비용 없음</li>
+          <li>작업 범위를 시공 전에 미리 안내</li>
+          <li>시공 후 아쉬운 부분은 무상 재시공</li>
+        </ul>
+        <p>시공이 끝난 뒤에도 마음에 걸리는 부분이 있다면 편하게 말씀해 주세요. 끝까지 책임지고 해결해 드립니다.</p>`
+    }
+  };
+  const infoModal=document.getElementById('infoModal'),infoBody=document.getElementById('infoBody');
+  function openInfo(k){
+    const d=INFO[k];
+    document.getElementById('infoTag').textContent=d.tag;
+    document.getElementById('infoTitle').innerHTML=d.title;
+    infoBody.style.gridTemplateColumns='';
+    infoBody.innerHTML='<div class="info-photo'+(d.wide?' wide':'')+'"><img alt="" src="'+d.photo+'"></div><div class="info-text">'+d.html+
+      (d.cta?'<a href="#contact" class="btn btn-primary info-cta" id="infoCta">무료 견적 문의하기</a>':'')+'</div>';
+    const img=infoBody.querySelector('img');
+    img.onerror=()=>{img.parentElement.innerHTML='<div class="ph-note"><b>'+d.emoji+'</b>'+d.ph+'</div>'};
+    infoModal.classList.add('open');document.body.style.overflow='hidden';
+    infoModal.querySelector('.info-box').scrollTop=0;
+    const cta=document.getElementById('infoCta');if(cta)cta.onclick=closeInfo;
+  }
+  function closeInfo(){infoModal.classList.remove('open');if(!modal.classList.contains('open'))document.body.style.overflow=''}
+  document.querySelectorAll('[data-info]').forEach(b=>b.addEventListener('click',()=>openInfo(b.dataset.info)));
+  document.getElementById('infoClose').onclick=closeInfo;
+  infoModal.addEventListener('click',e=>{if(e.target===infoModal)closeInfo()});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&infoModal.classList.contains('open'))closeInfo()});
+  const G={
+    'move-in':'입주청소 시공 사진',
+    'moving':'이사청소 시공 사진',
+    'office':'사무실·상가 청소 시공 사진',
+    'screen':'방충망 시공 사진',
+    'kitchen':'주방·후드 청소 시공 사진',
+    'special':'특수·정기 청소 시공 사진'
+  };
+  const cache={};
+  function probe(k){
+    if(cache[k])return cache[k];
+    return cache[k]=new Promise(res=>{
+      const out=[];
+      (function next(i){
+        const s='photos/'+k+'/'+i+'.jpg',im=new Image();
+        im.onload=()=>{out.push(s);next(i+1)};
+        im.onerror=()=>res(out);
+        im.src=s;
+      })(1);
+    });
+  }
+  const modal=document.getElementById('modal'),mImg=document.getElementById('mImg'),
+        mEmpty=document.getElementById('mEmpty'),mThumbs=document.getElementById('mThumbs'),
+        mCount=document.getElementById('mCount'),mTitle=document.getElementById('mTitle');
+  let list=[],idx=0,key='';
+  let tk=0;
+  function show(i,instant){
+    if(!list.length)return;
+    const dir=i>=idx?1:-1;
+    idx=(i+list.length)%list.length;
+    mCount.textContent=(idx+1)+' / '+list.length;
+    [...mThumbs.children].forEach((t,k)=>t.classList.toggle('on',k===idx));
+    mThumbs.children[idx].scrollIntoView({block:'nearest',inline:'center'});
+    const src=list[idx],t=++tk;
+    if(instant){mImg.style.transition='none';mImg.style.opacity=1;mImg.style.transform='none';mImg.src=src;return}
+    // 이전 사진이 옆으로 살짝 밀리며 사라지고, 다음 사진이 반대쪽에서 부드럽게 들어옴
+    mImg.style.transition='opacity .22s ease,transform .22s ease';
+    mImg.style.opacity=0;
+    mImg.style.transform='translateX('+(-dir*40)+'px) scale(.97)';
+    setTimeout(()=>{
+      if(t!==tk)return;
+      const pre=new Image();
+      pre.onload=pre.onerror=()=>{
+        if(t!==tk)return;
+        mImg.src=src;
+        mImg.style.transition='none';
+        mImg.style.transform='translateX('+(dir*40)+'px) scale(.97)';
+        void mImg.offsetWidth;
+        mImg.style.transition='opacity .4s ease,transform .45s cubic-bezier(.2,.7,.2,1)';
+        mImg.style.opacity=1;
+        mImg.style.transform='none';
+      };
+      pre.src=src;
+    },220);
+    [idx+1,idx-1].forEach(n=>{new Image().src=list[(n+list.length)%list.length]});
+  }
+  async function openG(k){
+    key=k;
+    mTitle.textContent=G[k];
+    modal.classList.add('open');document.body.style.overflow='hidden';
+    list=[];mImg.hidden=true;mEmpty.hidden=true;mThumbs.innerHTML='';mCount.textContent='불러오는 중...';
+    list=await probe(k);
+    if(key!==k)return;
+    const has=list.length>0;
+    mImg.hidden=!has;mEmpty.hidden=has;
+    document.getElementById('mPrev').hidden=document.getElementById('mNext').hidden=list.length<2;
+    mThumbs.innerHTML='';mCount.textContent='';
+    list.forEach((s,i)=>{const t=document.createElement('img');t.src=s;t.alt='';t.loading='lazy';t.onclick=()=>show(i);mThumbs.appendChild(t)});
+    if(!has)mCount.textContent='';
+    show(0,true);
+  }
+  function closeG(){modal.classList.remove('open');document.body.style.overflow=''}
+  document.querySelectorAll('[data-gallery]').forEach(b=>b.addEventListener('click',()=>openG(b.dataset.gallery)));
+  document.getElementById('mPrev').onclick=()=>show(idx-1);
+  document.getElementById('mNext').onclick=()=>show(idx+1);
+  document.getElementById('mClose').onclick=closeG;
+  modal.addEventListener('click',e=>{if(e.target===modal)closeG()});
+  document.addEventListener('keydown',e=>{
+    if(!modal.classList.contains('open'))return;
+    if(e.key==='Escape')closeG();
+    if(e.key==='ArrowLeft')show(idx-1);
+    if(e.key==='ArrowRight')show(idx+1);
+  });
+  let sx=0;
+  modal.addEventListener('touchstart',e=>{sx=e.touches[0].clientX},{passive:true});
+  modal.addEventListener('touchend',e=>{const d=e.changedTouches[0].clientX-sx;if(Math.abs(d)>50)show(idx+(d<0?1:-1))});
+  /* ===== 견적 문의: 날짜 달력 + 전송 ===== */
+  // Google Apps Script 웹 앱 주소(setup/Code.gs 배포 후 /exec 로 끝나는 주소)를 여기에 넣으세요.
+  const API_URL='https://script.google.com/macros/s/AKfycbzOSOi-k-3CyT9pn4kIOJrWFbLnYy_KFqKxxwoLlL8GNN0cSls7iavl0ifRMx6vzyNU/exec';
+  const MAX_MONTHS=6;
+  const pad=n=>String(n).padStart(2,'0');
+  const ymd=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+  const today=new Date();today.setHours(0,0,0,0);
+  let closed=new Set(),selected='',view=new Date(today.getFullYear(),today.getMonth(),1);
+  const calDays=document.getElementById('calDays'),calTitle=document.getElementById('calTitle'),
+        calPrev=document.getElementById('calPrev'),calNext=document.getElementById('calNext'),
+        dateInput=document.getElementById('date'),dateText=document.getElementById('dateText');
+  function renderCal(){
+    calTitle.textContent=view.getFullYear()+'년 '+(view.getMonth()+1)+'월';
+    calPrev.disabled=view<=new Date(today.getFullYear(),today.getMonth(),1);
+    calNext.disabled=view>=new Date(today.getFullYear(),today.getMonth()+MAX_MONTHS,1);
+    calDays.innerHTML='';
+    const first=new Date(view.getFullYear(),view.getMonth(),1).getDay();
+    const last=new Date(view.getFullYear(),view.getMonth()+1,0).getDate();
+    for(let i=0;i<first;i++){const b=document.createElement('span');b.className='cal-day blank';calDays.appendChild(b)}
+    for(let d=1;d<=last;d++){
+      const dt=new Date(view.getFullYear(),view.getMonth(),d),key=ymd(dt);
+      const b=document.createElement('button');b.type='button';b.className='cal-day';b.textContent=d;
+      if(dt<today){b.classList.add('past');b.disabled=true}
+      else if(closed.has(key)){b.classList.add('full');b.disabled=true;b.insertAdjacentHTML('beforeend','<small>마감</small>')}
+      else b.onclick=()=>{selected=key;dateInput.value=key;dateText.textContent=view.getFullYear()+'년 '+(view.getMonth()+1)+'월 '+d+'일 선택됨';renderCal()};
+      if(+dt===+today)b.classList.add('today');
+      if(key===selected)b.classList.add('sel');
+      calDays.appendChild(b);
+    }
+  }
+  calPrev.onclick=()=>{view=new Date(view.getFullYear(),view.getMonth()-1,1);renderCal()};
+  calNext.onclick=()=>{view=new Date(view.getFullYear(),view.getMonth()+1,1);renderCal()};
+  renderCal();
+  if(API_URL){
+    fetch(API_URL+'?action=closed').then(r=>r.json()).then(j=>{
+      closed=new Set(j.closed||[]);
+      if(closed.has(selected)){selected='';dateInput.value='';dateText.textContent='날짜를 선택해 주세요'}
+      renderCal();
+    }).catch(()=>{});
+  }
+  const note=document.getElementById('formNote');
+  document.getElementById('form').addEventListener('submit',async e=>{
+    e.preventDefault();
+    if(!dateInput.value){note.textContent='희망 날짜를 달력에서 선택해 주세요.';note.style.color='#c0392b';return}
+    note.style.color='';
+    if(!API_URL){
+      note.textContent='온라인 접수 연결 전입니다. 전화 010-9748-6741 로 문의해 주세요.';
+      note.style.color='#c0392b';return;
+    }
+    const f=e.target,data={
+      name:document.getElementById('name').value,phone:document.getElementById('phone').value,service:f.service.value,size:f.size.value,
+      date:dateInput.value
+    };
+    const btn=f.querySelector('button[type=submit]');btn.disabled=true;btn.textContent='접수 중...';
+    try{
+      await fetch(API_URL,{method:'POST',mode:'no-cors',body:JSON.stringify(data)});
+      alert('견적 요청이 접수되었습니다. 빠르게 연락드리겠습니다!');
+      f.reset();selected='';dateInput.value='';dateText.textContent='날짜를 선택해 주세요';renderCal();
+    }catch(err){
+      note.textContent='접수에 실패했습니다. 전화 010-9748-6741 로 문의해 주세요.';note.style.color='#c0392b';
+    }
+    btn.disabled=false;btn.textContent='견적 요청하기';
+  });
+</script>
+</body>
+</html>
